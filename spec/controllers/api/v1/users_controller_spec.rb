@@ -61,14 +61,17 @@ describe Api::V1::UsersController do
   end
 
   describe "PUT/PATCH #update" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      request.headers['Authorization'] =  @user.auth_token
+    end
 
     context "when successfully updated" do
       before(:each) do
-        @user = FactoryGirl.create :user
         patch :update, params: { id: @user.id, user: { email: "newmail@example.com" } }, format: :json
-       end
+      end
 
-       it "renders the json representation for the updated user" do
+      it "renders the json representation for the updated user" do
         user_response = json_response
         expect(user_response[:email]).to eql "newmail@example.com"
       end
@@ -80,11 +83,10 @@ describe Api::V1::UsersController do
 
     context "when not created" do
       before(:each) do
-        @user = FactoryGirl.create :user
         patch :update, params: { id: @user.id, user: { email: "bademail.com" } }, format: :json
-       end
+      end
 
-       it "renders an errors json" do
+      it "renders an errors json" do
         user_response = json_response
         expect(user_response).to have_key(:errors)
       end
@@ -103,6 +105,7 @@ describe Api::V1::UsersController do
   describe "DELETE #destroy" do
     before(:each) do
       @user = FactoryGirl.create :user
+      request.headers['Authorization'] =  @user.auth_token
       delete :destroy, params: { id: @user.id }, format: :json
     end
 
