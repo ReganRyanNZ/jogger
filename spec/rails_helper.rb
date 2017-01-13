@@ -29,7 +29,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   #Including to test requests
-  config.include Request::JsonHelpers, :type => :controller
+  config.include Request::JsonHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
