@@ -15,14 +15,7 @@ var createRecord = function() {
                   }
     }).success(function() {
         alert("great!");
-        // $editForms.fadeOut(function() {
-        //     clearForm();
-        // });
-        // $boundBox.fadeOut();
-        // var $active = $highlightForm.hasClass('overview') ? $('#' + id + '.overview-btn.overview') : $('.snippet-objects.active');
-        // $active.fadeOut(function() {
-        //     $(this).remove();
-        // });
+        // finish this
     }).error(function() {
         console.log(arguments);
         alert('Failed!');
@@ -40,14 +33,7 @@ var deleteRecord = function(id) {
                       }
         }).success(function() {
             alert("great!");
-            // $editForms.fadeOut(function() {
-            //     clearForm();
-            // });
-            // $boundBox.fadeOut();
-            // var $active = $highlightForm.hasClass('overview') ? $('#' + id + '.overview-btn.overview') : $('.snippet-objects.active');
-            // $active.fadeOut(function() {
-            //     $(this).remove();
-            // });
+            // finish this
         }).error(function() {
             console.log(arguments);
             alert('Failed!');

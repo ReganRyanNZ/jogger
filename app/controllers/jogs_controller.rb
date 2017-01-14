@@ -1,5 +1,7 @@
 class JogsController < ApplicationController
   respond_to :html, :js
+  before_action :set_jogs, only: [:create, :update, :destroy]
+  before_action :set_jog, only: [:edit, :update, :destroy]
 
   def new
     @jog = Jog.new
@@ -10,7 +12,14 @@ class JogsController < ApplicationController
     @jog.user_id = params[:jog][:user_id].present? ? params[:jog][:user_id] : current_user.id
     @jog.time = @jog.time * 100 * 60
     @jog.save
-    @jogs = current_user.jogs
+  end
+
+  def update
+    @jog.update_attributes(jog_params)
+  end
+
+  def destroy
+    @jog.destroy
   end
 
   private
@@ -22,6 +31,14 @@ class JogsController < ApplicationController
 
   def admin_jog_params
     params.require(:jog).permit(:user_id, :time, :distance, :date)
+  end
+
+  def set_jogs
+    @jogs = current_user.admin? ? Jog.all : current_user.jogs
+  end
+
+  def set_jog
+    @jog = Jog.find(params[:id])
   end
 
 end

@@ -1,2 +1,2 @@
-$('#new-jog-form').html("<%= j (render 'form') %>");
-$('#new-jog-form').slideDown(350);
+$('#jog-form').html("<%= j (render 'form', new_record: true ) %>");
+$('#jog-form').slideDown(350);
