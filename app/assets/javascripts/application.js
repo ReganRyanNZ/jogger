@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require semantic.min
+//= require calendar.min
 //= require turbolinks
 //= require_tree .

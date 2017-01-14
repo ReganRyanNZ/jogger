@@ -15,12 +15,31 @@ table.ui.single.line.table
         td = format_time(jog.time)
         td = format_speed( m_to_km(jog.distance) / ms_to_h(jog.time) )
         td = link_to 'Delete', '#', onclick: "deleteRecord(#{jog.id})", class: "btn-delete", id: jog.id
-    / tr
-      / - form_for @user.jogs.new do |f|
-        / td = f.text_field :date
-        / td = f.text_field :distance
-        / td = f.text_field :time
-        / td = f.submit :save
+
+h2 Create New Record
+table.ui.single.line.table
+  tb
+    tr
+      #new-record-form
+        td
+          .ui.calendar#new-record-calendar
+             .ui.input.left.icon
+               / i.calendar.icon
+               input type="text" placeholder="Date" value="1/13/2017 3pm"
+          / .ui.input
+          /   input type="datetime" name="jog[date]" placeholder="date"
+        td
+          .ui.input
+            input#new-jog-distance type="text" name="jog[distance]" placeholder="distance (meters)"
+        td
+          .ui.input
+            input#new-jog-time type="text" name="jog[time]" placeholder="time (minutes)"
+        td
+          .ui.input
+            input#new-jog-user_id type="text" name="jog[user_id]" placeholder="user id"
+        td = link_to 'Create Record', '#', id: "create-record", onclick: "createRecord()"
 
 javascript:
   var userAuthToken = "#{ @user.auth_token }";
+
+  $('#new-record-calendar').calendar();
