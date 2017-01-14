@@ -1,20 +1,4 @@
-h1 Jogging Records
-table.ui.single.line.table
-  thead
-    tr
-      th Date
-      th Distance
-      th Time
-      th Average Speed
-      th
-  tbody
-    - @jogs.each do |jog|
-      tr
-        td = format_date(jog.date)
-        td = format_distance(jog.distance)
-        td = format_time(jog.time)
-        td = format_speed( m_to_km(jog.distance) / ms_to_h(jog.time) )
-        td = link_to 'Delete', '#', onclick: "deleteRecord(#{jog.id})", class: "btn-delete", id: jog.id
+= render 'jogs/jog_records'
 
 = link_to "New Jog Record", new_jog_path, remote: true
 #new-record-form style="display:none;"
