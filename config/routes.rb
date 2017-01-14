@@ -3,6 +3,8 @@ require 'api_constraints'
 Rails.application.routes.draw do
   devise_for :users
 
+  resources :jogs
+
   root to: "pages#home"
   get "manager", to: "pages#manager"
   get "report", to: "pages#report"

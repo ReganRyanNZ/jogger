@@ -1,0 +1,35 @@
+= form_for @jog, remote: true do |f|
+
+  h2 Create New Record
+  table.ui.single.line.table
+    tb
+      tr
+        td
+          .ui.calendar#new-record-calendar
+            .ui.input.left.icon
+              / i.calendar.icon
+              / input type="text" placeholder="Date" value="1/13/2017 3pm"
+              = f.text_field :date, id: "new-record-date", placeholder: "Date", value: "1/13/2017 3pm"
+          / .ui.input
+          /   input type="datetime" name="jog[date]" placeholder="date"
+        td
+          .ui.input
+            = f.text_field :distance, placeholder: "distance (meters)"
+        td
+          .ui.input
+            = f.text_field :time, placeholder: "time (minutes)"
+        - if(current_user.admin?)
+          td
+            .ui.input
+              = f.text_field :time, placeholder: "User ID"
+        td = f.submit "Create Record", class: "ui button"
+
+
+        / =# link_to 'Create Record', '#', id: "create-record", onclick: "createRecord()"
+/ javascript:
+/   $('#new-record-calendar').on("change", function() {
+/     $('#new-record-date').val()
+/     $('#new-record-calendar').calendar('get date')
+/     });
+javascript:
+  $('#new-record-calendar').calendar();
