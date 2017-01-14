@@ -2,9 +2,13 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: [:home, :manager]
   before_action :set_all_users, only: [:manager]
-  before_action :set_jogs, only: [:home]
+  before_action :set_jogs, only: [:home, :report]
 
   def home
+
+  end
+
+  def report
 
   end
 
@@ -23,6 +27,6 @@ class PagesController < ApplicationController
   end
 
   def set_jogs
-    @jogs = current_user.jogs
+    @jogs = current_user.admin? ? Jog.all : current_user.jogs
   end
 end

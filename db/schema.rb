@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113002846) do
+ActiveRecord::Schema.define(version: 20170113182802) do
 
   create_table "jogs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id"
-    t.integer  "time"
-    t.integer  "distance"
-    t.datetime "date"
+    t.integer  "time",       null: false
+    t.integer  "distance",   null: false
+    t.datetime "date",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_jogs_on_user_id", using: :btree

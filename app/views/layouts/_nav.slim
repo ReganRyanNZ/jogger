@@ -1,11 +1,17 @@
 .ui.secondary.pointing.menu
   - if user_signed_in?
-    .item.active
-      = link_to "Jogger", root_path
-    .item
-      = link_to "Manager", manager_path
-    .item
-      | All records
+    - if @user.regular?
+      .item
+        = link_to "Jogger", root_path
+    - if @user.regular?
+      .item
+        = link_to "Weekly Report", report_path
+    - if @user.manager? || @user.admin?
+      .item
+        = link_to "Manager", manager_path
+    - if @user.admin?
+      .item
+        | All records
   .right.menu
     .ui.item
       - if user_signed_in?

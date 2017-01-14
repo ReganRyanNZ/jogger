@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   before_create :generate_authentication_token!
 
+  enum role: [:regular, :manager, :admin]
+
   def generate_authentication_token!
     begin
       self.auth_token = Devise.friendly_token

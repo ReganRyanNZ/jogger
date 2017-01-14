@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   root to: "pages#home"
   get "manager", to: "pages#manager"
-
+  get "report", to: "pages#report"
 
   namespace :api, defaults: { format: :json }, constraints: { subdomain: 'api' }, path: '/'  do
       scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do

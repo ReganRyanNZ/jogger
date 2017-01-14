@@ -1,19 +1,20 @@
 require 'rails_helper'
 
-describe Api::V1::UsersController do
+describe Api::V1::JogsController do
   before(:each) { request.headers['Accept'] = "application/vnd.regan-ryan.v1" }
 
   describe "GET #show" do
-    context "when requested by self" do
+    context "when requested by owner" do
       before(:each) do
         @user = FactoryGirl.create :user
+        @jog = FactoryGirl.create :jog, user: @user
         request.headers['Authorization'] =  @user.auth_token
-        get :show, params: {id: @user.id}, format: :json
+        get :show, params: {id: @jog.id}, format: :json
       end
 
-      it "returns the information about a user on a hash" do
-        user_response = json_response
-        expect(user_response[:email]).to eql @user.email
+      it "returns the information about a jog on a hash" do
+        jog_response = json_response
+        expect(jog_response[:time]).to eql @jog.time
       end
 
       it "returns 200" do
@@ -25,15 +26,16 @@ describe Api::V1::UsersController do
       [:admin, :manager].each do |role|
         before(:each) do
           @user = FactoryGirl.create :user
+          @jog = FactoryGirl.create :jog, user: @user
           @auth_user = FactoryGirl.create :user, role: role
           request.headers['Authorization'] =  @auth_user.auth_token
 
-          get :show, params: {id: @user.id}, format: :json
+          get :show, params: {id: @jog.id}, format: :json
         end
 
-        it "returns the information about a user on a hash" do
-          user_response = json_response
-          expect(user_response[:email]).to eql @user.email
+        it "returns the information about a jog on a hash" do
+          jog_response = json_response
+          expect(jog_response[:time]).to eql @jog.time
         end
 
         it "returns 200" do
@@ -45,10 +47,11 @@ describe Api::V1::UsersController do
     context "when unauthorized" do
       before(:each) do
         @user = FactoryGirl.create :user
+        @jog = FactoryGirl.create :jog, user: @user
         @bad_user = FactoryGirl.create :user
         request.headers['Authorization'] =  @bad_user.auth_token
 
-        get :show, params: {id: @user.id}, format: :json
+        get :show, params: {id: @jog.id}, format: :json
       end
 
       it "returns 401" do
@@ -61,13 +64,15 @@ describe Api::V1::UsersController do
 
     context "when successfully created" do
       before(:each) do
-        @user_attributes = FactoryGirl.attributes_for :user
-        post :create, params: { user: @user_attributes }, format: :json
+        @user = FactoryGirl.create :user
+        @jog_attributes = FactoryGirl.attributes_for :jog
+        request.headers['Authorization'] =  @user.auth_token
+        post :create, params: { jog: @jog_attributes }, format: :json
       end
 
       it "renders the json representation for the user record just created" do
-        user_response = json_response
-        expect(user_response[:email]).to eql @user_attributes[:email]
+        jog_response = json_response
+        expect(jog_response[:time]).to eql @jog_attributes[:time]
       end
 
       it "returns 201" do
@@ -77,19 +82,20 @@ describe Api::V1::UsersController do
 
     context "when not created" do
       before(:each) do
-        #invalid with no email
-        @invalid_user_attributes = { password: "12345678", password_confirmation: "12345678" }
-        post :create, params: { user: @invalid_user_attributes }, format: :json
+        @user = FactoryGirl.create :user
+        request.headers['Authorization'] =  @user.auth_token
+        @invalid_jog_attributes = { distance: 12345, date: "2016-01-09 10:30:14" } # no time
+        post :create, params: { jog: @invalid_jog_attributes }, format: :json
       end
 
       it "renders an errors json" do
-        user_response = json_response
-        expect(user_response).to have_key(:errors)
+        jog_response = json_response
+        expect(jog_response).to have_key(:errors)
       end
 
       it "renders the json errors on why the user could not be created" do
-        user_response = json_response
-        expect(user_response[:errors][:email]).to include "can't be blank"
+        jog_response = json_response
+        expect(jog_response[:errors][:time]).to include "can't be blank"
       end
 
       it "returns 422" do
@@ -101,17 +107,18 @@ describe Api::V1::UsersController do
   describe "PUT/PATCH #update" do
     before(:each) do
       @user = FactoryGirl.create :user
+      @jog = FactoryGirl.create :jog, user: @user
       request.headers['Authorization'] =  @user.auth_token
     end
 
     context "when successfully updated" do
       before(:each) do
-        patch :update, params: { id: @user.id, user: { email: "newmail@example.com" } }, format: :json
+        patch :update, params: { id: @jog.id, jog: { time: 2000 } }, format: :json
       end
 
-      it "renders the json representation for the updated user" do
-        user_response = json_response
-        expect(user_response[:email]).to eql "newmail@example.com"
+      it "renders the json representation for the updated jog" do
+        jog_response = json_response
+        expect(jog_response[:time]).to eql 2000
       end
 
       it "returns 200" do
@@ -125,12 +132,12 @@ describe Api::V1::UsersController do
           @auth_user = FactoryGirl.create :user, role: role
           request.headers['Authorization'] =  @auth_user.auth_token
 
-          patch :update, params: { id: @user.id, user: { email: "newmail@example.com" } }, format: :json
+          patch :update, params: { id: @jog.id, jog: { time: 2000 } }, format: :json
         end
 
-        it "renders the json representation for the updated user" do
-          user_response = json_response
-          expect(user_response[:email]).to eql "newmail@example.com"
+        it "renders the json representation for the updated jog" do
+          jog_response = json_response
+          expect(jog_response[:time]).to eql 2000
         end
 
         it "returns 200" do
@@ -141,17 +148,12 @@ describe Api::V1::UsersController do
 
     context "when not updated" do
       before(:each) do
-        patch :update, params: { id: @user.id, user: { email: "bademail.com" } }, format: :json
+        patch :update, params: { id: @jog.id, jog: { time: nil } }, format: :json
       end
 
       it "renders an errors json" do
-        user_response = json_response
-        expect(user_response).to have_key(:errors)
-      end
-
-      it "renders the json errors on why the user could not be created" do
-        user_response = json_response
-        expect(user_response[:errors][:email]).to include "is invalid"
+        jog_response = json_response
+        expect(jog_response).to have_key(:errors)
       end
 
       it "returns 422" do
@@ -161,11 +163,12 @@ describe Api::V1::UsersController do
   end
 
   describe "DELETE #destroy" do
-    context "when deleted by self" do
+    context "when deleted by owner" do
       before(:each) do
         @user = FactoryGirl.create :user
+        @jog = FactoryGirl.create :jog, user: @user
         request.headers['Authorization'] =  @user.auth_token
-        delete :destroy, params: { id: @user.id }, format: :json
+        delete :destroy, params: { id: @jog.id }, format: :json
       end
 
       it "returns 204" do
@@ -177,10 +180,11 @@ describe Api::V1::UsersController do
       [:admin, :manager].each do |role|
         before(:each) do
           @user = FactoryGirl.create :user
+          @jog = FactoryGirl.create :jog, user: @user
           @auth_user = FactoryGirl.create :user, role: role
           request.headers['Authorization'] =  @auth_user.auth_token
 
-          delete :destroy, params: { id: @user.id }, format: :json
+          delete :destroy, params: { id: @jog.id }, format: :json
         end
 
         it "returns 204" do
@@ -192,10 +196,11 @@ describe Api::V1::UsersController do
     context "when unauthorized" do
       before(:each) do
         @user = FactoryGirl.create :user
+        @jog = FactoryGirl.create :jog, user: @user
         @bad_user = FactoryGirl.create :user
         request.headers['Authorization'] =  @bad_user.auth_token
 
-        delete :destroy, params: { id: @user.id }, format: :json
+        delete :destroy, params: { id: @jog.id }, format: :json
       end
 
       it "returns 401" do
