@@ -2,6 +2,8 @@ h1 Jogging Records
 table.ui.single.line.table
   thead
     tr
+      - if current_user.admin?
+        th User
       th Date
       th Distance
       th Time

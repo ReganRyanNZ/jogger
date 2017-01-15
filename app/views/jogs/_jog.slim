@@ -1,4 +1,6 @@
 tr
+  - if current_user.admin?
+    td = "[#{jog.user_id}] " + jog.user.email
   td = format_date(jog.date)
   td = format_distance(jog.distance)
   td = format_time(jog.time)

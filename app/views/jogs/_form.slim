@@ -18,7 +18,7 @@
         - if(current_user.admin?)
           td
             .ui.input
-              = f.text_field :time, placeholder: "User ID"
+              = f.select :user_id, User.all.map{|u| [u.email, u.id]}, {}, { class: "ui compact selection dropdown" }
         - submit_name = (!!local_assigns[:new_record]) ? "Create" : "Update"
         td = f.submit submit_name, class: "ui button"
 

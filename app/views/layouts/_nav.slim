@@ -6,12 +6,12 @@
     - if current_user.regular?
       .item
         = link_to "Weekly Report", report_path
+    - if current_user.admin?
+      .item
+        = link_to "All records", root_path
     - if current_user.manager? || current_user.admin?
       .item
         = link_to "Manager", manager_path
-    - if current_user.admin?
-      .item
-        | All records
   .right.menu
     .ui.item
       - if user_signed_in?
