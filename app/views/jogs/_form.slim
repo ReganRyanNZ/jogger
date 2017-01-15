@@ -6,7 +6,8 @@
       th Date
       th Distance (meters)
       th Time (minutes)
-      th User
+      - if current_user.admin?
+        th User
       th
     tbody
       tr
