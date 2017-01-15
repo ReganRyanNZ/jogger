@@ -10,7 +10,7 @@ class JogsController < ApplicationController
   def create
     @jog = Jog.new(jog_params)
     @jog.user_id = params[:jog][:user_id].present? ? params[:jog][:user_id] : current_user.id
-    @jog.time = @jog.time * 100 * 60
+    @jog.time = @jog.time
     @jog.save
   end
 

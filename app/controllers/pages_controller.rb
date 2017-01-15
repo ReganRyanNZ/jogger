@@ -9,7 +9,7 @@ class PagesController < ApplicationController
   end
 
   def report
-
+    @weeks = @jogs.group_by(&:week).sort
   end
 
   def manager

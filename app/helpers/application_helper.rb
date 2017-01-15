@@ -1,11 +1,10 @@
 module ApplicationHelper
 
   def format_distance distance_in_meters
-    (distance_in_meters/1000.0).to_s + "km"
+    (distance_in_meters/1000.0).round(3).to_s + "km"
   end
 
-  def format_time time_in_milliseconds
-    minutes = (time_in_milliseconds/100/60)
+  def format_time minutes
     minutes.to_s + (minutes == 1 ? " minute" : " minutes")
   end
 
@@ -17,15 +16,11 @@ module ApplicationHelper
     speed.round(1).to_s + " km/h"
   end
 
-  def ms_to_min ms
-    ms / 100.0 / 60
+  def avg_distance week
+    week.sum{ |jog| jog.distance } / week.size.to_f
   end
 
-  def ms_to_h ms
-    ms / 100.0 / 60 / 60
-  end
-
-  def m_to_km m
-    m / 1000.0
+  def avg_speed week
+    week.sum{ |jog| jog.speed } / week.size.to_f
   end
 end
