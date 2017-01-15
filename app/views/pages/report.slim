@@ -1,7 +1,9 @@
 h1 Weekly Report
 table.ui.single.line.table
-  tr
-    th Week
-    th Avg. Distance
-    th Avg. Speed
-  = render partial: 'jogs/week', collection: @weeks, as: :week
+  thead
+    tr
+      th Week
+      th Avg. Distance
+      th Avg. Speed
+  tbody
+    = render partial: 'jogs/week', collection: @weeks, as: :week

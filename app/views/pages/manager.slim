@@ -3,20 +3,10 @@ table.ui.single.line.table
   thead
     tr
       th Email
+      th Role
       th
       th
-  tbody
-    - @all_users.each do |user|
-      tr
-        td = user.email
-        / td RESET PASSWORD LINK
-        / td DELETE USER
-        / td = DELETE BUTTON
-    / new user form (use AJAX Api)
-    / tr
-    /   - form_for @user.jogs.new do |f|
-    /     td = f.text_field :date
-    /     td = f.text_field :distance
-    /     td = f.text_field :time
-    /     td = f.submit :save
+  tbody#user-listing
+    = render @users
 
+#user-form style="display:none;"

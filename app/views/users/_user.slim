@@ -1,0 +1,5 @@
+tr
+  td = user.email
+  td = user.role
+  td = link_to 'Edit', edit_user_path(user), remote: true
+  / td = link_to 'Delete', user, remote: true, method: :delete,  data: { confirm: 'Are you sure?' }

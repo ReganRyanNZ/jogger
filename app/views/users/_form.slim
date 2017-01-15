@@ -1,0 +1,16 @@
+= form_for @user, remote: true do |f|
+
+  h2 Edit User
+  table.ui.single.line.table
+    tb
+      tr
+        td
+          .ui.input
+            = f.text_field :email, placeholder: "email"
+        td
+          .ui.input
+           = f.select :role, User.roles.keys, {}, { class: "ui compact selection dropdown" }
+        td = f.submit "Update", class: "ui button"
+
+javascript:
+  $('#new-record-calendar').calendar();

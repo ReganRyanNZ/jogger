@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :jogs
-
+  resources :users, only: [:destroy, :edit, :update]
   root to: "pages#home"
   get "manager", to: "pages#manager"
   get "report", to: "pages#report"
