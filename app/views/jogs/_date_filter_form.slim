@@ -1,0 +1,16 @@
+= form_tag filter_dates_path, method: "post", remote: true
+  | from:
+  .ui.calendar#date-filter-from
+    .ui.input.left.icon
+      / i.calendar.icon
+      input type="text" name="date_range[from]" placeholder="Date"
+  | to:
+  .ui.calendar#date-filter-to
+    .ui.input.left.icon
+      / i.calendar.icon
+      input type="text" name="date_range[to]" placeholder="Date"
+  = submit_tag "Filter", class: "ui button"
+
+javascript:
+  $('#date-filter-from').calendar({type: 'date'});
+  $('#date-filter-to').calendar({type: 'date'});

@@ -1,4 +1,6 @@
 #jogs-index
+  = link_to "Filter by dates", new_date_filter_path, remote: true
+  #date-filter style="display:none;"
   = render 'jogs/jog_records'
 
 = link_to "New Jog Record", new_jog_path, remote: true

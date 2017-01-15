@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   resources :jogs
   resources :users, only: [:destroy, :edit, :update]
+  get "new_date_filter", to: "jogs#new_date_filter"
+  post "filter_dates", to: "jogs#filter_dates"
   root to: "pages#home"
   get "manager", to: "pages#manager"
   get "report", to: "pages#report"

@@ -2,13 +2,19 @@
 
   h2 = (!!local_assigns[:new_record]) ? "Create New Record" : "Edit Record"
   table.ui.single.line.table
-    tb
+    thead
+      th Date
+      th Distance (meters)
+      th Time (minutes)
+      th User
+      th
+    tbody
       tr
         td
           .ui.calendar#new-record-calendar
             .ui.input.left.icon
               / i.calendar.icon
-              = f.text_field :date, id: "new-record-date", placeholder: "Date", value: "1/13/2017 3pm"
+              = f.text_field :date, id: "new-record-date", placeholder: "Date"
         td
           .ui.input
             = f.text_field :distance, placeholder: "distance (meters)"
